@@ -1,0 +1,54 @@
+
+
+
+
+
+
+.snake-game-container {
+  width: 600px;
+  height: 600px;
+  border: 2px solid #333;
+  border-radius: 10px;
+  background-color: #f0f0f0;
+  position: relative;
+  padding: 20px;
+}
+
+.game-area {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.snake-segment {
+  width: 20px;
+  height: 20px;
+  background-color: green;
+  position: absolute;
+}
+
+.food {
+  width: 20px;
+  height: 20px;
+  background-color: red;
+  position: absolute;
+}
+
+.game-over-screen {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.score-display {
+  margin-top: 10px;
+  text-align: center;
+}
+
+
+
+
+
