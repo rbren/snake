@@ -1,4 +1,4 @@
-# fly.toml app configuration file generated for openvibe-hello-world on 2025-09-13T00:33:25Z
+# fly.toml app configuration file generated for snake on 2025-09-13T00:33:25Z
 #
 # See https://fly.io/docs/reference/configuration/ for information about how to use this file.
 #
@@ -6,7 +6,7 @@
 # - Frontend: served at / (React SPA)
 # - Backend API: served at /api/* (proxied to Python Flask app)
 
-app = 'openvibe-hello-world'
+app = 'snake'
 primary_region = 'ewr'
 
 [build]

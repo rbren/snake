@@ -39,7 +39,7 @@ function Home() {
     <div className="home">
       <section className="hero">
         <div className="hero-content">
-          <h1>Welcome to OpenVibe Hello World</h1>
+          <h1>Welcome to Snake</h1>
           <p>Your React App is Running with Python Backend!</p>
           
           <div className="backend-status">

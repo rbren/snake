@@ -1,7 +1,7 @@
-# OpenVibe Hello World
+# Snake
 
-[![CI](https://github.com/rbren/openvibe-hello-world/actions/workflows/ci.yml/badge.svg)](https://github.com/rbren/openvibe-hello-world/actions/workflows/ci.yml)
-[![Deploy](https://github.com/rbren/openvibe-hello-world/actions/workflows/deploy.yml/badge.svg)](https://github.com/rbren/openvibe-hello-world/actions/workflows/deploy.yml)
+[![CI](https://github.com/rbren/snake/actions/workflows/ci.yml/badge.svg)](https://github.com/rbren/snake/actions/workflows/ci.yml)
+[![Deploy](https://github.com/rbren/snake/actions/workflows/deploy.yml/badge.svg)](https://github.com/rbren/snake/actions/workflows/deploy.yml)
 
 A basic React application built with Vite.
 

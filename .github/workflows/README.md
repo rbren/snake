@@ -1,6 +1,6 @@
 # GitHub Actions Workflows
 
-This directory contains the GitHub Actions workflows for the OpenVibe Hello World project.
+This directory contains the GitHub Actions workflows for the Snake project.
 
 ## Workflows
 
@@ -8,14 +8,14 @@ This directory contains the GitHub Actions workflows for the OpenVibe Hello Worl
 - **Triggers**: Push to `main`, Pull Requests
 - **Purpose**: Builds and deploys the application to Fly.io
 - **Environments**:
-  - **Production**: `openvibe-hello-world` (main branch)
-  - **Preview**: `openvibe-hello-world-{branch-name}` (PRs and feature branches)
+  - **Production**: `snake` (main branch)
+  - **Preview**: `snake-{branch-name}` (PRs and feature branches)
 
 ### 🧹 `cleanup-pr.yml` - PR Cleanup
 - **Triggers**: When Pull Requests are closed
 - **Purpose**: Automatically cleans up feature deployments when PRs are closed
 - **Actions**:
-  - Deletes the associated Fly.io app (`openvibe-hello-world-{branch-name}`)
+  - Deletes the associated Fly.io app (`snake-{branch-name}`)
   - Posts a cleanup confirmation comment on the PR
 
 ### 🗑️ `cleanup-cron.yml` - Scheduled Cleanup
@@ -27,7 +27,7 @@ This directory contains the GitHub Actions workflows for the OpenVibe Hello Worl
   - Configurable maximum age (default: 7 days)
   - Dry run mode for testing
   - Detailed cleanup reports via GitHub issues
-  - Safe filtering (only deletes `openvibe-hello-world-*` apps, never the main `openvibe-hello-world` app)
+  - Safe filtering (only deletes `snake-*` apps, never the main `snake` app)
 
 ## Manual Cleanup
 
@@ -43,8 +43,8 @@ You can manually trigger the cleanup workflow with custom parameters:
 ## App Naming Convention
 
 Feature deployments follow this naming pattern:
-- **Main app**: `openvibe-hello-world`
-- **Feature apps**: `openvibe-hello-world-{clean-branch-name}`
+- **Main app**: `snake`
+- **Feature apps**: `snake-{clean-branch-name}`
 
 The branch name cleaning logic:
 1. Removes "github" (case insensitive)
@@ -63,7 +63,7 @@ Reusable script that generates clean Fly.io app names from branch names. Used by
 **Usage:**
 ```bash
 ./.github/scripts/get-app-name.sh "feature/add-new-component"
-# Output: openvibe-hello-world-feature-add-new-component
+# Output: snake-feature-add-new-component
 ```
 
 ## Security
