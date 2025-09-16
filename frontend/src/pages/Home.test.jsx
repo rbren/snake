@@ -1,81 +1,47 @@
-import { render, screen, waitFor } from '@testing-library/react'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { render, screen } from '@testing-library/react'
+import { describe, it, expect, vi } from 'vitest'
 import Home from './Home'
 
-// Mock fetch globally
-global.fetch = vi.fn()
+// Mock timers for game loop
+vi.useFakeTimers()
 
 describe('Home', () => {
-  beforeEach(() => {
-    // Reset fetch mock before each test
-    fetch.mockClear()
-    
-    // Mock successful API responses
-    fetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ message: 'Hello from the API!', endpoint: '/api/hello' })
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ status: 'healthy', service: 'Snake Backend' })
-      })
-  })
-
-  it('renders the hero section', async () => {
+  it('renders the Snake game', () => {
     render(<Home />)
     
-    expect(screen.getByText('Welcome to Snake')).toBeInTheDocument()
-    expect(screen.getByText('Your React App is Running with Python Backend!')).toBeInTheDocument()
-    
-    // Wait for backend connection test to complete
-    await waitFor(() => {
-      expect(screen.getByText('🔗 Backend Connection Test')).toBeInTheDocument()
-    })
+    // Check that the Snake game title is rendered
+    expect(screen.getByText('Snake Game')).toBeInTheDocument()
   })
 
-  it('renders hero buttons', () => {
+  it('renders the game canvas', () => {
     render(<Home />)
     
-    expect(screen.getByRole('button', { name: 'Get Started' })).toBeInTheDocument()
-    expect(screen.getByRole('button', { name: 'Learn More' })).toBeInTheDocument()
+    // Check that a canvas element is present by tag name
+    const canvas = document.querySelector('canvas')
+    expect(canvas).toBeInTheDocument()
   })
 
-  it('renders features section', () => {
+  it('renders score display', () => {
     render(<Home />)
     
-    expect(screen.getByText('Features')).toBeInTheDocument()
-    
-    // Check for updated feature cards
-    expect(screen.getByText('🐍 Full-Stack')).toBeInTheDocument()
-    expect(screen.getByText('⚡ Fast')).toBeInTheDocument()
-    expect(screen.getByText('🔧 Modern')).toBeInTheDocument()
-    expect(screen.getByText('🚀 Deploy Ready')).toBeInTheDocument()
+    // Check that score elements are present - be more specific
+    expect(screen.getByText('Score:')).toBeInTheDocument()
+    expect(screen.getByText('High Score:')).toBeInTheDocument()
   })
 
-  it('renders feature descriptions', () => {
+  it('renders game instructions', () => {
     render(<Home />)
     
-    expect(screen.getByText('React frontend with Python Flask backend - complete full-stack solution')).toBeInTheDocument()
-    expect(screen.getByText('Built with Vite for lightning-fast development and builds')).toBeInTheDocument()
-    expect(screen.getByText('Latest React features with hooks, context, and modern JavaScript')).toBeInTheDocument()
-    expect(screen.getByText('Single Docker container with nginx proxy - ready for Fly.io deployment')).toBeInTheDocument()
+    // Check for game instructions - be more specific to avoid duplicates
+    expect(screen.getByText('Ready to Play?')).toBeInTheDocument()
+    expect(screen.getByText('Press SPACE to pause')).toBeInTheDocument()
+    expect(screen.getByText('Press ENTER or SPACE to start')).toBeInTheDocument()
   })
 
-  it('displays backend connection test results', async () => {
+  it('renders control instructions', () => {
     render(<Home />)
     
-    // Initially shows connecting state
-    expect(screen.getByText('🔄 Connecting to backend...')).toBeInTheDocument()
-    
-    // Wait for API calls to complete and results to display
-    await waitFor(() => {
-      expect(screen.getByText(/Hello API:/)).toBeInTheDocument()
-      expect(screen.getByText(/Health Check:/)).toBeInTheDocument()
-    })
-    
-    // Check that fetch was called with correct endpoints
-    expect(fetch).toHaveBeenCalledWith('/api/hello')
-    expect(fetch).toHaveBeenCalledWith('/api/health')
+    // Check for control instructions at the bottom
+    expect(screen.getByText(/Use arrow keys to move • SPACE to pause • ENTER to restart/)).toBeInTheDocument()
   })
 })

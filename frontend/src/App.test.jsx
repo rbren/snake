@@ -1,36 +1,19 @@
 import { render, screen } from '@testing-library/react'
-import { describe, it, expect, beforeEach, vi } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import App from './App'
 
-// Mock fetch globally for App tests too
-global.fetch = vi.fn()
+// Mock timers for game loop
+vi.useFakeTimers()
 
 describe('App', () => {
-  beforeEach(() => {
-    // Reset fetch mock before each test
-    fetch.mockClear()
-    
-    // Mock successful API responses
-    fetch
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ message: 'Hello from the API!', endpoint: '/api/hello' })
-      })
-      .mockResolvedValueOnce({
-        ok: true,
-        json: async () => ({ status: 'healthy', service: 'Snake Backend' })
-      })
-  })
-
   it('renders the main layout components', () => {
     render(<App />)
     
     // Check for header logo specifically
-    expect(screen.getByRole('link', { name: 'Snake' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: '🐍 Snake Game' })).toBeInTheDocument()
     
-    // Check for home page content (default route) - updated text
-    expect(screen.getByText('Welcome to Snake')).toBeInTheDocument()
-    expect(screen.getByText('Your React App is Running with Python Backend!')).toBeInTheDocument()
+    // Check for Snake game content (default route)
+    expect(screen.getByText('Snake Game')).toBeInTheDocument()
     
     // Check for footer
     expect(screen.getByText('© 2025 Snake. All rights reserved.')).toBeInTheDocument()
@@ -43,10 +26,10 @@ describe('App', () => {
     const nav = screen.getByRole('navigation')
     expect(nav).toBeInTheDocument()
     
-    // Use getAllByRole to handle multiple links with same name
-    const homeLinks = screen.getAllByRole('link', { name: 'Home' })
-    expect(homeLinks.length).toBeGreaterThan(0)
+    // Check for Play link in header
+    expect(screen.getByRole('link', { name: 'Play' })).toBeInTheDocument()
     
+    // Use getAllByRole to handle multiple links with same name (header + footer)
     const aboutLinks = screen.getAllByRole('link', { name: 'About' })
     expect(aboutLinks.length).toBeGreaterThan(0)
     

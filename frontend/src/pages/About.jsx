@@ -5,28 +5,36 @@ function About() {
     <div className="about">
       <div className="container">
         <section className="about-hero">
-          <h1>About Snake</h1>
-          <p>Learn more about our mission and the technology behind this project</p>
+          <h1>About Snake Game</h1>
+          <p>A classic arcade game reimagined with modern web technologies</p>
         </section>
 
         <section className="about-content">
           <div className="about-grid">
             <div className="about-text">
-              <h2>Our Mission</h2>
+              <h2>The Classic Game</h2>
               <p>
-                Snake is a modern React application built with the latest technologies 
-                and best practices. Our goal is to provide a solid foundation for building 
-                scalable, maintainable, and performant web applications.
+                Snake is a timeless arcade game where you control a growing snake to eat food 
+                while avoiding collisions with walls and your own tail. The challenge increases 
+                as your snake grows longer with each piece of food consumed.
               </p>
               <p>
-                We believe in the power of open source and community-driven development. 
-                This project serves as both a learning resource and a starting point for 
-                developers looking to build amazing user experiences.
+                This modern implementation features smooth gameplay, responsive controls, 
+                score tracking, and high score persistence. Built with React and Canvas API 
+                for optimal performance and visual appeal.
               </p>
+              <h3>How to Play</h3>
+              <ul>
+                <li>🎮 Use arrow keys to control the snake</li>
+                <li>🍎 Eat red food to grow and increase your score</li>
+                <li>⚠️ Avoid hitting walls or your own tail</li>
+                <li>⏸️ Press SPACE to pause/unpause</li>
+                <li>🔄 Press ENTER to restart after game over</li>
+              </ul>
             </div>
             <div className="about-image">
               <div className="placeholder-image">
-                <span>🚀</span>
+                <span>🐍</span>
               </div>
             </div>
           </div>
@@ -37,27 +45,27 @@ function About() {
           <div className="tech-grid">
             <div className="tech-item">
               <h3>React 19</h3>
-              <p>Latest version of React with modern hooks and features</p>
+              <p>Modern React with hooks for game state management</p>
+            </div>
+            <div className="tech-item">
+              <h3>HTML5 Canvas</h3>
+              <p>High-performance 2D rendering for smooth gameplay</p>
+            </div>
+            <div className="tech-item">
+              <h3>Flask Backend</h3>
+              <p>Python API for high score persistence and game data</p>
+            </div>
+            <div className="tech-item">
+              <h3>Tailwind CSS</h3>
+              <p>Utility-first CSS framework for responsive design</p>
+            </div>
+            <div className="tech-item">
+              <h3>Local Storage</h3>
+              <p>Client-side high score persistence</p>
             </div>
             <div className="tech-item">
               <h3>Vite</h3>
               <p>Lightning-fast build tool and development server</p>
-            </div>
-            <div className="tech-item">
-              <h3>React Router</h3>
-              <p>Declarative routing for React applications</p>
-            </div>
-            <div className="tech-item">
-              <h3>Vitest</h3>
-              <p>Fast unit testing framework built for Vite</p>
-            </div>
-            <div className="tech-item">
-              <h3>ESLint</h3>
-              <p>Code linting and formatting for consistent code quality</p>
-            </div>
-            <div className="tech-item">
-              <h3>GitHub Actions</h3>
-              <p>Automated CI/CD pipeline for testing and deployment</p>
             </div>
           </div>
         </section>
