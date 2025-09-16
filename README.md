@@ -4,6 +4,7 @@
 [![Deploy](https://github.com/rbren/snake/actions/workflows/deploy.yml/badge.svg)](https://github.com/rbren/snake/actions/workflows/deploy.yml)
 
 A basic React application built with Vite.
+hola amigo
 
 ## Getting Started
 
