@@ -13,13 +13,13 @@ describe('Header', () => {
   it('renders the logo', () => {
     render(<HeaderWithRouter />)
     
-    expect(screen.getByText('Snake')).toBeInTheDocument()
+    expect(screen.getByText('🐍 Snake Game')).toBeInTheDocument()
   })
 
   it('renders navigation links', () => {
     render(<HeaderWithRouter />)
     
-    expect(screen.getByText('Home')).toBeInTheDocument()
+    expect(screen.getByText('Play')).toBeInTheDocument()
     expect(screen.getByText('About')).toBeInTheDocument()
     expect(screen.getByText('Contact')).toBeInTheDocument()
   })
@@ -30,8 +30,8 @@ describe('Header', () => {
     const nav = screen.getByRole('navigation')
     expect(nav).toBeInTheDocument()
     
-    const homeLink = screen.getByRole('link', { name: 'Home' })
-    expect(homeLink).toHaveAttribute('href', '/')
+    const playLink = screen.getByRole('link', { name: 'Play' })
+    expect(playLink).toHaveAttribute('href', '/')
     
     const aboutLink = screen.getByRole('link', { name: 'About' })
     expect(aboutLink).toHaveAttribute('href', '/about')

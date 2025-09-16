@@ -1,7 +1,6 @@
 from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
-import json
 from datetime import datetime
 
 app = Flask(__name__)
@@ -9,6 +8,7 @@ CORS(app)
 
 # In-memory storage for high scores (in production, use a database)
 high_scores = []
+
 
 @app.route("/")
 def hello_world():
@@ -43,38 +43,49 @@ def save_high_score():
     """Save a new high score"""
     try:
         data = request.get_json()
-        
+
         if not data or "score" not in data:
             return jsonify({"error": "Score is required"}), 400
-        
+
         score = data["score"]
         player_name = data.get("playerName", "Anonymous")
-        
+
         if not isinstance(score, int) or score < 0:
             return jsonify({"error": "Invalid score"}), 400
-        
+
         new_score = {
             "score": score,
             "playerName": player_name,
             "date": datetime.now().isoformat(),
-            "id": len(high_scores) + 1
+            "id": len(high_scores) + 1,
         }
-        
+
         high_scores.append(new_score)
-        
+
         # Keep only top 100 scores to prevent memory issues
         if len(high_scores) > 100:
             sorted_scores = sorted(high_scores, key=lambda x: x["score"], reverse=True)
             high_scores.clear()
             high_scores.extend(sorted_scores[:100])
-        
-        return jsonify({
-            "message": "High score saved successfully",
-            "score": new_score,
-            "isNewRecord": score > 0 and (not high_scores or score >= max(s["score"] for s in high_scores if s != new_score))
-        }), 201
-        
-    except Exception as e:
+
+        # Check if this is a new record (before we added the current score)
+        is_new_record = score > 0 and (
+            len(high_scores) == 1  # First score ever
+            or score >= max(s["score"] for s in high_scores if s["id"] != new_score["id"])
+        )
+
+        return (
+            jsonify(
+                {
+                    "message": "High score saved successfully",
+                    "score": new_score,
+                    "isNewRecord": is_new_record,
+                }
+            ),
+            201,
+        )
+
+    except Exception:
         return jsonify({"error": "Failed to save high score"}), 500
 
 
