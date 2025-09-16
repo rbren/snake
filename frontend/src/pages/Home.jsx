@@ -42,6 +42,9 @@ function Home() {
           <h1>Welcome to Snake</h1>
           <p>Your React App is Running with Python Backend!</p>
           
+
+<p>hola amigo</p>
+
           <div className="backend-status">
             <h3>🔗 Backend Connection Test</h3>
             {loading ? (
