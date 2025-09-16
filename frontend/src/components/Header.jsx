@@ -6,10 +6,10 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>Snake</h1>
+          <h1>🐍 Snake Game</h1>
         </Link>
         <nav className="nav">
-          <Link to="/" className="nav-link">Home</Link>
+          <Link to="/" className="nav-link">Play</Link>
           <Link to="/about" className="nav-link">About</Link>
           <Link to="/contact" className="nav-link">Contact</Link>
         </nav>
