@@ -2,12 +2,13 @@ from flask import Flask, jsonify, request
 from flask_cors import CORS
 import os
 from datetime import datetime
+from typing import List, Dict, Any
 
 app = Flask(__name__)
 CORS(app)
 
 # In-memory storage for high scores (in production, use a database)
-high_scores = []
+high_scores: List[Dict[str, Any]] = []
 
 
 @app.route("/")
@@ -71,7 +72,8 @@ def save_high_score():
         # Check if this is a new record (before we added the current score)
         is_new_record = score > 0 and (
             len(high_scores) == 1  # First score ever
-            or score >= max(s["score"] for s in high_scores if s["id"] != new_score["id"])
+            or score
+            >= max(s["score"] for s in high_scores if s["id"] != new_score["id"])
         )
 
         return (
