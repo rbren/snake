@@ -18,7 +18,7 @@ describe('App', () => {
       })
       .mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ status: 'healthy', service: 'OpenVibe Hello World Backend' })
+        json: async () => ({ status: 'healthy', service: 'Snake Backend' })
       })
   })
 
@@ -26,14 +26,14 @@ describe('App', () => {
     render(<App />)
     
     // Check for header logo specifically
-    expect(screen.getByRole('link', { name: 'OpenVibe Hello World' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Snake' })).toBeInTheDocument()
     
     // Check for home page content (default route) - updated text
-    expect(screen.getByText('Welcome to OpenVibe Hello World')).toBeInTheDocument()
+    expect(screen.getByText('Welcome to Snake')).toBeInTheDocument()
     expect(screen.getByText('Your React App is Running with Python Backend!')).toBeInTheDocument()
     
     // Check for footer
-    expect(screen.getByText('© 2025 OpenVibe Hello World. All rights reserved.')).toBeInTheDocument()
+    expect(screen.getByText('© 2025 Snake. All rights reserved.')).toBeInTheDocument()
   })
 
   it('has proper navigation structure', () => {

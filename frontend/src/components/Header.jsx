@@ -6,7 +6,7 @@ function Header() {
     <header className="header">
       <div className="header-container">
         <Link to="/" className="logo">
-          <h1>OpenVibe Hello World</h1>
+          <h1>Snake</h1>
         </Link>
         <nav className="nav">
           <Link to="/" className="nav-link">Home</Link>

@@ -47,7 +47,7 @@ jobs:
         id: deployment-env
         run: |
           if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
-            echo "app_name=openvibe-hello-world" >> $GITHUB_OUTPUT
+            echo "app_name=snake" >> $GITHUB_OUTPUT
             echo "environment=production" >> $GITHUB_OUTPUT
             echo "is_production=true" >> $GITHUB_OUTPUT
           else
@@ -63,13 +63,13 @@ jobs:
         if: steps.deployment-env.outputs.is_production == 'false'
         run: |
           cp fly.toml fly-feature.toml
-          sed -i "s/app = 'openvibe-hello-world'/app = '${{ steps.deployment-env.outputs.app_name }}'/" fly-feature.toml
+          sed -i "s/app = 'snake'/app = '${{ steps.deployment-env.outputs.app_name }}'/" fly-feature.toml
 
       - name: Deploy to production
         if: steps.deployment-env.outputs.is_production == 'true'
         run: |
           # Create the production app if it doesn't exist
-          flyctl apps create openvibe-hello-world || true
+          flyctl apps create snake || true
           # Deploy to production
           flyctl deploy --remote-only
         env:
@@ -89,7 +89,7 @@ jobs:
         id: deployment-url
         run: |
           if [[ "${{ steps.deployment-env.outputs.is_production }}" == "true" ]]; then
-            echo "url=https://openvibe-hello-world.fly.dev" >> $GITHUB_OUTPUT
+            echo "url=https://snake.fly.dev" >> $GITHUB_OUTPUT
           else
             echo "url=https://${{ steps.deployment-env.outputs.app_name }}.fly.dev" >> $GITHUB_OUTPUT
           fi

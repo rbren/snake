@@ -32,7 +32,7 @@ if [[ "$clean_branch" =~ ^[0-9] ]]; then
   clean_branch="br-$clean_branch"
 fi
 
-# Truncate to 25 chars to leave room for "openvibe-hello-world-" prefix (Fly.io 63 char limit)
+# Truncate to 25 chars to leave room for "snake-" prefix (Fly.io 63 char limit)
 clean_branch=$(echo "$clean_branch" | cut -c1-25)
 
 # Remove trailing hyphen if truncation created one
@@ -44,4 +44,4 @@ if [[ -z "$clean_branch" ]]; then
 fi
 
 # Output the full app name
-echo "openvibe-hello-world-$clean_branch"
+echo "snake-$clean_branch"

@@ -6,7 +6,7 @@ function Footer() {
       <div className="footer-container">
         <div className="footer-content">
           <div className="footer-section">
-            <h3>OpenVibe Hello World</h3>
+            <h3>Snake</h3>
             <p>Building amazing experiences with React</p>
           </div>
           <div className="footer-section">
@@ -27,7 +27,7 @@ function Footer() {
           </div>
         </div>
         <div className="footer-bottom">
-          <p>&copy; 2025 OpenVibe Hello World. All rights reserved.</p>
+          <p>&copy; 2025 Snake. All rights reserved.</p>
         </div>
       </div>
     </footer>

@@ -5,7 +5,7 @@ function About() {
     <div className="about">
       <div className="container">
         <section className="about-hero">
-          <h1>About OpenVibe Hello World</h1>
+          <h1>About Snake</h1>
           <p>Learn more about our mission and the technology behind this project</p>
         </section>
 
@@ -14,7 +14,7 @@ function About() {
             <div className="about-text">
               <h2>Our Mission</h2>
               <p>
-                OpenVibe Hello World is a modern React application built with the latest technologies 
+                Snake is a modern React application built with the latest technologies 
                 and best practices. Our goal is to provide a solid foundation for building 
                 scalable, maintainable, and performant web applications.
               </p>

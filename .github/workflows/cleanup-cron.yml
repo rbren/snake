@@ -70,7 +70,7 @@ jobs:
           apps_to_delete=()
           deletion_results=()
           
-          # Get list of all apps and filter for openvibe-hello-world-* pattern (excluding main app)
+          # Get list of all apps and filter for snake-* pattern (excluding main app)
           echo "📋 Fetching app list..."
           flyctl apps list --json > apps.json
           
@@ -78,8 +78,8 @@ jobs:
           while IFS= read -r app_line; do
             app_name=$(echo "$app_line" | jq -r '.Name')
             
-            # Skip if not a feature deployment (must start with openvibe-hello-world- but not be exactly openvibe-hello-world)
-            if [[ ! "$app_name" =~ ^openvibe-hello-world-.+ ]]; then
+            # Skip if not a feature deployment (must start with snake- but not be exactly snake)
+            if [[ ! "$app_name" =~ ^snake-.+ ]]; then
               continue
             fi
             

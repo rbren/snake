@@ -19,7 +19,7 @@ def hello_world():
 
 @app.route("/api/health")
 def health_check():
-    return jsonify({"status": "healthy", "service": "OpenVibe Hello World Backend"})
+    return jsonify({"status": "healthy", "service": "Snake Backend"})
 
 
 @app.route("/api/hello")
