@@ -1,0 +1,121 @@
+name: Deploy to Fly.io
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+env:
+  FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+jobs:
+  deploy:
+    name: Deploy app
+    runs-on: ubuntu-latest
+    concurrency:
+      group: ${{ github.workflow }}-${{ github.ref }}
+      cancel-in-progress: true
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+          cache: 'npm'
+          cache-dependency-path: 'frontend/package-lock.json'
+
+      - name: Install dependencies
+        working-directory: frontend
+        run: npm ci
+
+      - name: Build application
+        working-directory: frontend
+        run: npm run build
+
+      - name: Setup Fly CLI
+        uses: superfly/flyctl-actions/setup-flyctl@master
+
+      - name: Determine deployment environment
+        id: deployment-env
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "app_name=openvibe-hello-world" >> $GITHUB_OUTPUT
+            echo "environment=production" >> $GITHUB_OUTPUT
+            echo "is_production=true" >> $GITHUB_OUTPUT
+          else
+            # For PRs and feature branches, create a unique app name using the reusable script
+            branch_name="${{ github.head_ref || github.ref_name }}"
+            app_name=$(./.github/scripts/get-app-name.sh "$branch_name")
+            echo "app_name=$app_name" >> $GITHUB_OUTPUT
+            echo "environment=preview" >> $GITHUB_OUTPUT
+            echo "is_production=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Create fly.toml for feature deployment
+        if: steps.deployment-env.outputs.is_production == 'false'
+        run: |
+          cp fly.toml fly-feature.toml
+          sed -i "s/app = 'openvibe-hello-world'/app = '${{ steps.deployment-env.outputs.app_name }}'/" fly-feature.toml
+
+      - name: Deploy to production
+        if: steps.deployment-env.outputs.is_production == 'true'
+        run: |
+          # Create the production app if it doesn't exist
+          flyctl apps create openvibe-hello-world || true
+          # Deploy to production
+          flyctl deploy --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Deploy to feature environment
+        if: steps.deployment-env.outputs.is_production == 'false'
+        run: |
+          # Create the app if it doesn't exist
+          flyctl apps create ${{ steps.deployment-env.outputs.app_name }} --org personal || true
+          # Deploy using the feature-specific config
+          flyctl deploy --config fly-feature.toml --remote-only
+        env:
+          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+
+      - name: Get deployment URL
+        id: deployment-url
+        run: |
+          if [[ "${{ steps.deployment-env.outputs.is_production }}" == "true" ]]; then
+            echo "url=https://openvibe-hello-world.fly.dev" >> $GITHUB_OUTPUT
+          else
+            echo "url=https://${{ steps.deployment-env.outputs.app_name }}.fly.dev" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Comment on PR
+        if: github.event_name == 'pull_request'
+        uses: KeisukeYamashita/create-comment@v1
+        with:
+          comment: |
+            ## 🚀 Deployment Status
+            
+            **Environment:** `${{ steps.deployment-env.outputs.environment }}`
+            **App Name:** `${{ steps.deployment-env.outputs.app_name }}`
+            **Status:** ✅ Successfully deployed
+            
+            ### 🔗 Preview URL
+            **[Visit deployment →](${{ steps.deployment-url.outputs.url }})**
+            
+            ### 📊 Fly.io Management
+            - **[View App Status →](https://fly.io/apps/${{ steps.deployment-env.outputs.app_name }})**
+            - **[View Metrics →](https://fly.io/apps/${{ steps.deployment-env.outputs.app_name }}/metrics)**
+            - **[View Monitoring →](https://fly.io/apps/${{ steps.deployment-env.outputs.app_name }}/monitoring)**
+            
+            ---
+            
+            This deployment will be automatically cleaned up when the PR is closed.
+            
+            <sub>Deployed via GitHub Actions • [View workflow run](https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }})</sub>
+          unique: true
